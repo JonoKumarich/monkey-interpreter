@@ -47,6 +47,11 @@ pub enum TokenType {
     // Keywords
     FUNCTION,
     LET,
+    TRUE,
+    FALSE,
+    IF,
+    ELSE,
+    RETURN,
 }
 
 // impl TokenType {
@@ -75,6 +80,11 @@ pub fn lookup_ident(ident: &String) -> TokenType {
 
     keywords.insert("fn".to_owned(), TokenType::FUNCTION);
     keywords.insert("let".to_owned(), TokenType::LET);
+    keywords.insert("if".to_owned(), TokenType::IF);
+    keywords.insert("else".to_owned(), TokenType::ELSE);
+    keywords.insert("true".to_owned(), TokenType::TRUE);
+    keywords.insert("false".to_owned(), TokenType::FALSE);
+    keywords.insert("return".to_owned(), TokenType::RETURN);
 
     *keywords.get(ident).unwrap_or(&TokenType::IDENT)
 
