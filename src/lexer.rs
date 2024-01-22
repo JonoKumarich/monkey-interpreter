@@ -73,7 +73,7 @@ impl Lexer {
         }
     }
 
-    fn next_token(self: &mut Self) -> Token {
+    pub fn next_token(self: &mut Self) -> Token {
         self.skip_whitespace();
 
         let token_type = match self.ch {

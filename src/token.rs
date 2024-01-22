@@ -1,4 +1,6 @@
 use std::collections::HashMap;
+use std::fmt;
+
 
 
 #[derive(Debug)]
@@ -55,6 +57,13 @@ pub enum TokenType {
     IF,
     ELSE,
     RETURN,
+}
+
+
+impl fmt::Display for TokenType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+       write!(f, "{:?}", self)
+    }
 }
 
 pub fn lookup_ident(ident: &String) -> TokenType {
