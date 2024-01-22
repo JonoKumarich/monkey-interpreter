@@ -1,3 +1,6 @@
+use std::collections::HashMap;
+
+
 #[derive(Debug)]
 pub struct Token {
     pub kind: TokenType,
@@ -7,13 +10,13 @@ pub struct Token {
 impl Token {
     pub fn new(token_type: TokenType, ch: u8) -> Self {
         Token {
-            literal: ch.to_string(),
+            literal: String::from_utf8(vec![ch]).unwrap(),
             kind: token_type
         }
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Copy, Clone)]
 pub enum TokenType {
     ILLEGAL,
     EOF,
@@ -60,5 +63,13 @@ impl TokenType {
     }
 }
 
+pub fn lookup_ident(ident: &String) -> TokenType {
+    let mut keywords = HashMap::new();
 
-        
+    keywords.insert("fn".to_owned(), TokenType::FUNCTION);
+    keywords.insert("let".to_owned(), TokenType::LET);
+
+    *keywords.get(ident).unwrap_or(&TokenType::IDENT)
+
+}
+
