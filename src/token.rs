@@ -1,13 +1,13 @@
 #[derive(Debug)]
 pub struct Token {
     pub kind: TokenType,
-    pub literal: u8,
+    pub literal: String,
 }
 
 impl Token {
     pub fn new(token_type: TokenType, ch: u8) -> Self {
         Token {
-            literal: ch,
+            literal: ch.to_string(),
             kind: token_type
         }
     }
