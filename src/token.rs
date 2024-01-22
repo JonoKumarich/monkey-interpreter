@@ -28,6 +28,13 @@ pub enum TokenType {
     // Operators
     ASSIGN,
     PLUS,
+    MINUS,
+    BANG,
+    ASTERIX,
+    SLASH,
+
+    GT,
+    LT,
 
     // Delimiters
     COMMA,
@@ -42,26 +49,26 @@ pub enum TokenType {
     LET,
 }
 
-impl TokenType {
-    pub fn as_str(&self) -> &'static str {
-        match self {
-            TokenType::EOF => "EOF",
-            TokenType::ILLEGAL => "ILLEGAL",
-            TokenType::IDENT => "IDENT",
-            TokenType::INT => "INT",
-            TokenType::ASSIGN => "=",
-            TokenType::PLUS => "+",
-            TokenType::COMMA => ",",
-            TokenType::SEMICOLON => ";",
-            TokenType::LPAREN => "(",
-            TokenType::RPAREN => ")",
-            TokenType::LBRACE => "{",
-            TokenType::RBRACE => "}",
-            TokenType::LET => "LET",
-            TokenType::FUNCTION => "FUNCTION",
-        }
-    }
-}
+// impl TokenType {
+//     pub fn as_str(&self) -> &'static str {
+//         match self {
+//             TokenType::EOF => "EOF",
+//             TokenType::ILLEGAL => "ILLEGAL",
+//             TokenType::IDENT => "IDENT",
+//             TokenType::INT => "INT",
+//             TokenType::ASSIGN => "=",
+//             TokenType::PLUS => "+",
+//             TokenType::COMMA => ",",
+//             TokenType::SEMICOLON => ";",
+//             TokenType::LPAREN => "(",
+//             TokenType::RPAREN => ")",
+//             TokenType::LBRACE => "{",
+//             TokenType::RBRACE => "}",
+//             TokenType::LET => "LET",
+//             TokenType::FUNCTION => "FUNCTION",
+//         }
+//     }
+// }
 
 pub fn lookup_ident(ident: &String) -> TokenType {
     let mut keywords = HashMap::new();

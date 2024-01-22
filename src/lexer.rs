@@ -77,6 +77,12 @@ impl Lexer {
             b'{' => TokenType::LBRACE,
             b')' => TokenType::RPAREN,
             b'}' => TokenType::RBRACE,
+            b'-' => TokenType::MINUS,
+            b'/' => TokenType::SLASH,
+            b'*' => TokenType::ASTERIX,
+            b'!' => TokenType::BANG,
+            b'<' => TokenType::LT,
+            b'>' => TokenType::GT,
             0 => return Token { kind: TokenType::EOF, literal: "".to_string() },
             _ => if self.ch.is_ascii_alphabetic() {
                 let literal = self.read_identifier();
@@ -115,6 +121,8 @@ let add = fn(x, y) {
 };
 
 let result = add(five, ten);
+!-/*5;
+5 < 10 > 5;
 ";
         let tests = vec![
             (TokenType::LET, "let"),
@@ -153,13 +161,26 @@ let result = add(five, ten);
             (TokenType::IDENT, "ten"),
             (TokenType::RPAREN, ")"),
             (TokenType::SEMICOLON, ";"),
+            (TokenType::BANG, "!"),
+            (TokenType::MINUS, "-"),
+            (TokenType::SLASH, "/"),
+            (TokenType::ASTERIX, "*"),
+            (TokenType::INT, "5"),
+            (TokenType::SEMICOLON, ";"),
+            (TokenType::INT, "5"),
+            (TokenType::LT, "<"),
+            (TokenType::INT, "10"),
+            (TokenType::GT, ">"),
+            (TokenType::INT, "5"),
+            (TokenType::SEMICOLON, ";"),
             (TokenType::EOF, ""),
+
         ];
 
         let mut lexer = Lexer::new(input.to_string());
         for (token_type, text) in tests {
             let token = lexer.next_token();
-            println!("{}", token.literal);
+            // println!("{}", token.literal);
 
             assert_eq!(token_type, token.kind);
             assert_eq!(text, token.literal);
