@@ -36,6 +36,9 @@ pub enum TokenType {
     GT,
     LT,
 
+    EQ,
+    NOT_EQ,
+
     // Delimiters
     COMMA,
     SEMICOLON,
@@ -53,27 +56,6 @@ pub enum TokenType {
     ELSE,
     RETURN,
 }
-
-// impl TokenType {
-//     pub fn as_str(&self) -> &'static str {
-//         match self {
-//             TokenType::EOF => "EOF",
-//             TokenType::ILLEGAL => "ILLEGAL",
-//             TokenType::IDENT => "IDENT",
-//             TokenType::INT => "INT",
-//             TokenType::ASSIGN => "=",
-//             TokenType::PLUS => "+",
-//             TokenType::COMMA => ",",
-//             TokenType::SEMICOLON => ";",
-//             TokenType::LPAREN => "(",
-//             TokenType::RPAREN => ")",
-//             TokenType::LBRACE => "{",
-//             TokenType::RBRACE => "}",
-//             TokenType::LET => "LET",
-//             TokenType::FUNCTION => "FUNCTION",
-//         }
-//     }
-// }
 
 pub fn lookup_ident(ident: &String) -> TokenType {
     let mut keywords = HashMap::new();

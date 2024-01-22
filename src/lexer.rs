@@ -65,11 +65,29 @@ impl Lexer {
         }
     }
 
+    fn peek_char(self: &mut Self) -> u8 {
+        if self.read_position >= self.input.len() {
+            return 0;
+        } else {
+            return self.input.as_bytes()[self.read_position]
+        }
+    }
+
     fn next_token(self: &mut Self) -> Token {
         self.skip_whitespace();
 
         let token_type = match self.ch {
-            b'=' => TokenType::ASSIGN,
+            b'=' => {
+                if self.peek_char() == b'=' {
+                    let ch = self.ch;
+                    self.read_char();
+                    let token = Token { kind: TokenType::EQ, literal: String::from_utf8(vec![ch, self.ch]).unwrap() };  
+                    self.read_char();
+                    return token
+                } else {
+                    TokenType::ASSIGN
+                }
+            },
             b';' => TokenType::SEMICOLON,
             b',' => TokenType::COMMA,
             b'+' => TokenType::PLUS,
@@ -80,7 +98,17 @@ impl Lexer {
             b'-' => TokenType::MINUS,
             b'/' => TokenType::SLASH,
             b'*' => TokenType::ASTERIX,
-            b'!' => TokenType::BANG,
+            b'!' => {
+                if self.peek_char() == b'=' {
+                    let ch = self.ch;
+                    self.read_char();
+                    let token = Token { kind: TokenType::NOT_EQ, literal: String::from_utf8(vec![ch, self.ch]).unwrap() };
+                    self.read_char();
+                    return token;
+                } else {
+                    TokenType::BANG
+                }
+            },
             b'<' => TokenType::LT,
             b'>' => TokenType::GT,
             0 => return Token { kind: TokenType::EOF, literal: "".to_string() },
@@ -88,7 +116,7 @@ impl Lexer {
                 let literal = self.read_identifier();
                 return Token {
                     kind: lookup_ident(&literal), 
-                    literal: literal
+                    literal
                 };
             } else if self.ch.is_ascii_digit() {
                 return Token {
@@ -128,7 +156,11 @@ if (5 < 10) {
    return true;
 } else {
    return false;
-}";
+}
+
+10 == 10; 
+10 != 9;";
+
         let tests = vec![
             (TokenType::LET, "let"),
             (TokenType::IDENT, "five"),
@@ -195,6 +227,14 @@ if (5 < 10) {
             (TokenType::FALSE, "false"),
             (TokenType::SEMICOLON, ";"),
             (TokenType::RBRACE, "}"),
+            (TokenType::INT, "10"),
+            (TokenType::EQ, "=="),
+            (TokenType::INT, "10"),
+            (TokenType::SEMICOLON, ";"),
+            (TokenType::INT, "10"),
+            (TokenType::NOT_EQ, "!="),
+            (TokenType::INT, "9"),
+            (TokenType::SEMICOLON, ";"),
             (TokenType::EOF, ""),
         ];
 
